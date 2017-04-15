@@ -1,0 +1,12 @@
+context YahooFinance {
+   entity Stocks {
+          adjClose : Double;
+          close    : Double;
+      key date     : String(40);
+          high     : Double;
+          low      : Double;
+          open     : Double;
+      key symbol   : String(6);
+          volume   : Integer;
+   };
+};

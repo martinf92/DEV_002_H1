@@ -1,0 +1,15 @@
+<mvc:View 
+	controllerName="mfr.app002.controller.App" 
+	xmlns="sap.m" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	displayBlock="true">
+	<App class="sapUiDemoWT">
+		<pages>
+			<Page title="{i18n>homePageTitle}">
+				<content>
+					<mvc:XMLView id="App002" viewName="mfr.app002.view.Page001"/>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

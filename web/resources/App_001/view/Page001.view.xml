@@ -1,0 +1,11 @@
+<mvc:View controllerName="mfr.app001.controller.Page001" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
+	<Panel headerText="Panel Header" class="sapUiResponsiveMargin" width="auto">
+		<content>
+			<Table id="tblStockData" growingThreshold="5" growing="true"/>
+			<Button text="Get Stock Data" press="onGetStockData"/>
+			<InputBase id="iptSymbol" placeholder="Symbol"/>
+			<InputBase id="iptFrom" placeholder="From"/>
+			<InputBase id="iptTo" placeholder="To"/>
+		</content>
+	</Panel>
+</mvc:View>

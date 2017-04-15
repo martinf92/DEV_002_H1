@@ -1,0 +1,9 @@
+<mvc:View controllerName="mfr.app002.controller.Page001" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
+	<Panel headerText="Panel Header" class="sapUiResponsiveMargin" width="auto">
+		<content>
+			<Table id="tblGoogleQueries" growingThreshold="5" growing="true"/>
+			<Button text="Get Google Queries" press="onGetGoogleQueries"/>
+			<InputBase id="iptGoogleQuery" placeholder="Google Query"/>
+		</content>
+	</Panel>
+</mvc:View>
