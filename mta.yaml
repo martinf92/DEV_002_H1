@@ -41,6 +41,7 @@ modules:
      - name: DEV002-uaa
      - name: hdi-container
      - name: core_db
+     - name: dev002-scheduler
    
 
 
@@ -77,4 +78,7 @@ resources:
    properties:
       hdi-container-name_2: ${service-name}
    type: com.sap.xs.hdi-container
+
+ - name: dev002-scheduler
+   type: com.sap.xs.job-scheduler
 

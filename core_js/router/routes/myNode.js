@@ -9,66 +9,96 @@ var WebSocketServer = require("ws").Server;
 
 module.exports = function(server) {
 	var app = express.Router();
+	var jobsc = require('sap-jobs-client');
+	var util = require(global.__base + "utils/jobs");
 
 	app.get("/", function(req, res) {
 		res.send("Hello World Node.js");
 	});
-	
-	app.get("/example1", function(req, res) {
+
+
+	app.get("/create_xsa_job", function(req, res) {
+		var jobid;
+		var options = util.appconfig();
+		var appUrl = req.body.appurl;
 		var client = req.db;
-		client.prepare("select SESSION_USER from \"DUMMY\" ",
-			function(err, statement) {
-				if (err) {
-					res.type("text/plain").status(500).send("ERROR: " + err.toString());
-					return;
+		var scheduleId;
+		var dePwd = new Buffer(req.body.password, 'base64');
+		var jpwd = dePwd.toString();
+		
+		var jname = "Job_001";
+		var description = "Job_001_Desc";
+		var startTime = "2017-04-16 17:00:00 +0000";
+		var endTime = "2017-04-16 17:10:00 +0000";
+		var cron = "* * * * * * 59";
+		var juser = req.body.user;
+		
+		var myJob = {
+			"name": jname,
+			"description": description,
+			"action": "",
+			"active": false,
+			"httpMethod": "POST",
+			"schedules": [{
+				"cron": cron,
+				"description": description,
+				"data": {
+					"jobname": jname
+				},
+				"active": true,
+				"startTime": {
+					"date": startTime,
+					"format": "YYYY-MM-DD HH:mm:ss Z"
+				},
+				"endTime": {
+					"date": "2017-04-16 17:10:00 +0000",
+					"format": "YYYY-MM-DD HH:mm:ss Z"
 				}
-				statement.exec([],
-					function(err, results) {
-						if (err) {
-							res.type("text/plain").status(500).send("ERROR: " + err.toString());
-							return;
-						} else {
-							var result = JSON.stringify({
-								Objects: results
-							});
-							res.type("application/json").status(200).send(result);
-						}
+			}]
+		};
+		var scheduler = new jobsc.Scheduler(options);
+		var scJob = {
+			job: myJob
+		};
+		scheduler.createJob(scJob, function(error, body) {
+			if (error) {
+				util.callback(error, res, "Error registering new job ");
+			} else {
+				jobid = body._id;
+				scheduleId = body.schedules[0].scheduleId;
+
+				var upJob = {
+					"jobId": jobid,
+					"job": {
+						"active": true,
+						"user": juser,
+						"password": jpwd
 					}
-				);
+				};
+				scheduler.updateJob(upJob, function(error, body) {
+					if (error) {
+						util.callback(error, res, "Error registering new job ");
+					} else {
+						res.status(200).send(JSON.stringify({
+							JobId: jobid,
+							JobName: jname,
+							Desc: description,
+							StartTime: startTime,
+							EndTime: endTime,
+							Cron: cron,
+							ScheduleId: scheduleId
+						}));
+					}
+
+				});
+
 			}
-		);
+
+		});
 	});
 
-	app.get("/example2", function(req, res) {
-		var client = req.db;
-		
-		async.waterfall([
-			function prepare(callback) {
-				client.prepare("select SESSION_USER from \"DUMMY\" ",
-					function(err, statement) {
-						callback(null, err, statement);
-					});
-			},
-			function execute(err, statement, callback) {
-				statement.exec([],
-					function(execErr, results) {
-						callback(null, execErr, results);
-					});
-			},
-			function response(err, results, callback) {
-				if (err) {
-					res.type("text/plain").status(500).send("ERROR: " + err.toString());
-					return;
-				} else {
-					var result = JSON.stringify({ Objects: results });
-					res.type("application/json").status(200).send(result);
-				}
-				callback();
-			}
-		]);
-	});
-	
-	
+
+
 	app.get("/yahoo_stocks_save", function(req, res) {
 		var client = req.db;
 		
