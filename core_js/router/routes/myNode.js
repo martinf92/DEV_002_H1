@@ -20,24 +20,19 @@ module.exports = function(server) {
 	app.get("/create_xsa_job", function(req, res) {
 		var jobid;
 		var options = util.appconfig();
-		var appUrl = req.body.appurl;
-		var client = req.db;
 		var scheduleId;
-		var dePwd = new Buffer(req.body.password, 'base64');
-		var jpwd = dePwd.toString();
 		
-		var jname = "Job_001";
-		var description = "Job_001_Desc";
-		var startTime = "2017-04-16 17:00:00 +0000";
-		var endTime = "2017-04-16 17:10:00 +0000";
+		var jname = "Job_009";
+		var description = "Job_009_Desc";
+		var startTime = "2017-04-16 17:10:00 +0000";
+		var endTime = "2017-04-16 17:25:00 +0000";
 		var cron = "* * * * * * 59";
-		var juser = req.body.user;
 		
 		var myJob = {
 			"name": jname,
 			"description": description,
-			"action": "",
-			"active": false,
+			"action": "https://hxehost:51012/schedulejobs/yahoo_stocks_save",
+			"active": true,
 			"httpMethod": "POST",
 			"schedules": [{
 				"cron": cron,
@@ -51,7 +46,7 @@ module.exports = function(server) {
 					"format": "YYYY-MM-DD HH:mm:ss Z"
 				},
 				"endTime": {
-					"date": "2017-04-16 17:10:00 +0000",
+					"date": endTime,
 					"format": "YYYY-MM-DD HH:mm:ss Z"
 				}
 			}]
@@ -62,7 +57,7 @@ module.exports = function(server) {
 		};
 		scheduler.createJob(scJob, function(error, body) {
 			if (error) {
-				util.callback(error, res, "Error registering new job ");
+				res.status(200).send("Error registering new job ");
 			} else {
 				jobid = body._id;
 				scheduleId = body.schedules[0].scheduleId;
@@ -70,14 +65,12 @@ module.exports = function(server) {
 				var upJob = {
 					"jobId": jobid,
 					"job": {
-						"active": true,
-						"user": juser,
-						"password": jpwd
+						"active": true
 					}
 				};
 				scheduler.updateJob(upJob, function(error, body) {
 					if (error) {
-						util.callback(error, res, "Error registering new job ");
+						res.status(200).send("Error updating job ");
 					} else {
 						res.status(200).send(JSON.stringify({
 							JobId: jobid,
@@ -89,9 +82,7 @@ module.exports = function(server) {
 							ScheduleId: scheduleId
 						}));
 					}
-
 				});
-
 			}
 
 		});

@@ -4,7 +4,13 @@
 	"websockets": {
 		"enabled": true
 	},
-	"routes": [{
+	"routes": [
+	{
+		"source": "/schedulejobs(.*)",
+		"destination": "core-backend",
+		"authenticationType": "basic"
+	},
+	{
 		"source": "/node(.*)",
 		"destination": "core-backend",
 		"csrfProtection": true,
