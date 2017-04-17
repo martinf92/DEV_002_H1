@@ -1,51 +1,47 @@
 {
-  "_version": "1.1.0",
-  "sap.app": {
-    "_version": "1.1.0",
-    "id": "mfr.app003",
-    "type": "application",
-    "i18n": "i18n/i18n.properties",
-    "title": "App 003",
-    "description": "App 003",
-    "applicationVersion": {
-      "version": "1.0.0"
-    }
-  },
-  "sap.ui": {
-    "_version": "1.1.0",
-    "technology": "UI5",
-    "deviceTypes": {
-      "desktop": true,
-      "tablet": true,
-      "phone": true
-    },
-    "supportedThemes": [
-      "sap_bluecrystal"
-    ]
-  },
-  "sap.ui5": {
-    "_version": "1.1.0",
-    "rootView": "mfr.app003.view.App",
-    "dependencies": {
-      "minUI5Version": "1.30",
-      "libs": {
-        "sap.m": {}
-      }
-    },
-    "models": {
-      "i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "settings": {
-          "bundleName": "mfr.app003.i18n.i18n"
-        }
-      }
-    },
-    "resources": {
-      "css": [
-        {
-          "uri": "css/style.css"
-        }
-      ]
-    }
-  }
+	"_version": "1.1.0",
+	"sap.app": {
+		"_version": "1.1.0",
+		"id": "mfr.app003",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "App 003",
+		"description": "App 003",
+		"applicationVersion": {
+			"version": "1.0.0"
+		}
+	},
+	"sap.ui": {
+		"_version": "1.1.0",
+		"technology": "UI5",
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": ["sap_bluecrystal"]
+	},
+	"sap.ui5": {
+		"_version": "1.1.0",
+		"rootView": "mfr.app003.view.App",
+		"dependencies": {
+			"minUI5Version": "1.30",
+			"libs": {
+				"sap.m": {}
+			}
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "mfr.app003.i18n.i18n"
+				}
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		}
+	}
 }

@@ -98,7 +98,7 @@ module.exports = function(server) {
 			function getStockData(callback){
 				yahooFinance.historical({
 						symbol: "AAPL",
-						from: "2000-01-01",
+						from: "2017-01-01",
 						to: "2017-01-30"
 					}, function (err, quotes) {
 						
